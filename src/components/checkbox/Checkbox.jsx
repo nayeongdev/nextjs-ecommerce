@@ -1,9 +1,24 @@
-import React from 'react'
+import React from "react";
 
-const Checkbox = () => {
+const Checkbox = ({
+  disabled = false,
+  checked = false,
+  label,
+  onChange,
+  ...restProps
+}) => {
   return (
-    <div>Checkbox</div>
-  )
-}
+    <label>
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+        {...restProps}
+      />{" "}
+      {label}
+    </label>
+  );
+};
 
-export default Checkbox 
+export default Checkbox;
