@@ -10,6 +10,7 @@ import Input from "@/components/input/Input";
 import LogoPath from "@/assets/colorful.svg";
 import styles from "./Auth.module.scss";
 import AutoSignInCheckbox from "@/components/autoSignInCheckbox/AutoSignInCheckbox";
+import Divider from "@/components/divider/Divider";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -70,7 +71,11 @@ const LoginClient = () => {
             </div>
 
             <div className={styles.buttonGroup}>
-              {/* Button */}
+              {/* 로그인 버튼 */}
+              <Divider/>
+              
+              <Divider/>
+              {/* 회원가입 버튼 */}
 
               <div>{/* Button */}</div>
             </div>
