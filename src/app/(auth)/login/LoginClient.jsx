@@ -1,18 +1,20 @@
 "use client";
-import Image from "next/image";
 import React, { useState } from "react";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 import Loader from "@/components/loader/Loader";
 import Input from "@/components/input/Input";
-
-import LogoPath from "@/assets/colorful.svg";
-import styles from "./Auth.module.scss";
 import AutoSignInCheckbox from "@/components/autoSignInCheckbox/AutoSignInCheckbox";
 import Divider from "@/components/divider/Divider";
 import Button from "@/components/button/Button";
+
+import LogoPath from "@/assets/colorful.svg";
+import ArrowPath from "@/assets/arrow.svg";
+
+import styles from "./Auth.module.scss";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -72,6 +74,15 @@ const LoginClient = () => {
                 checked={isAutoLogin}
                 onChange={(e) => setIsAutoLogin(e.target.checked)}
               />
+
+              <Link href="/reset" className={styles.findLink}>
+                비밀번호 재설정{" "}
+                <Image
+                  src={ArrowPath}
+                  alt="이동 아이콘"
+                  className={styles.findLinkArrow}
+                />
+              </Link>
             </div>
 
             <div className={styles.buttonGroup}>
