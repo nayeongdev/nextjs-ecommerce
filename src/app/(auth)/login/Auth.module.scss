@@ -9,6 +9,7 @@
     border-radius: 10px;
     .logo {
       text-align: center;
+      margin-bottom: 1rem;
     }
     .form {
       display: flex;
@@ -16,13 +17,13 @@
       width: 100%;
       max-width: 578px;
       .control {
-        margin-bottom: 20px;
+        margin-bottom: 1rem;
       }
 
       .group {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 2px;
+        margin-bottom: 0.5rem;
 
         .findLink {
           color: var(--color-primary);
