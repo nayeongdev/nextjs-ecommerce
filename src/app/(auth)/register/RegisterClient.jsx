@@ -77,8 +77,8 @@ function RegisterClient() {
                 회원가입
               </Button>
               <Divider />
-              <Button width="100%" secondary>
-                <Link href="/login">로그인</Link>
+              <Button href="/login" width="100%" secondary>
+                로그인
               </Button>
             </div>
           </form>

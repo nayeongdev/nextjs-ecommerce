@@ -90,8 +90,8 @@ const LoginClient = () => {
                 로그인
               </Button>
               <Divider />
-              <Button width="100%" secondary>
-                <Link href="/register">회원가입</Link>
+              <Button href="/register" width="100%" secondary>
+                회원가입
               </Button>
               <Divider />
 
