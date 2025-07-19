@@ -15,6 +15,7 @@ import LogoPath from "@/assets/colorful.svg";
 import ArrowPath from "@/assets/arrow.svg";
 
 import styles from "./Auth.module.scss";
+import { toast } from "react-toastify";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -30,6 +31,7 @@ const LoginClient = () => {
 
   const loginUser = (e) => {
     e.preventDefault();
+    toast.success("로그인 성공");
     setIsLoading(true);
   };
 
