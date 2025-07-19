@@ -13,6 +13,10 @@ import styles from "../login/Auth.module.scss";
 import Divider from "@/components/divider/Divider";
 import Button from "@/components/button/Button";
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import { auth } from "@/firebase/firebase";
+
 function RegisterClient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,10 +24,50 @@ function RegisterClient() {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-
+  
   const registerUser = (e) => {
     e.preventDefault();
+    if (!email || !password || !confirmPassword) {
+      toast.error("모두 입력해주세요.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("비밀번호가 일치하지 않습니다.");
+      return;
+    }
     setIsLoading(true);
+
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+
+      setIsLoading(false);
+
+      toast.success("회원가입 성공");
+      router.push("/login");
+    })
+    .catch((error) => {
+      setIsLoading(false);
+
+      let errorMessage = "회원가입 중 오류가 발생했습니다.";
+      
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage = "이미 사용 중인 이메일입니다.";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "올바른 이메일 형식을 입력해주세요.";
+          break;
+        case "auth/weak-password":
+          errorMessage = "비밀번호는 6자 이상 입력해주세요.";
+          break;
+        default:
+          errorMessage = `${errorMessage} ${error.message}`;
+      }
+      
+      toast.error(errorMessage);
+    });
   };
 
   return (
