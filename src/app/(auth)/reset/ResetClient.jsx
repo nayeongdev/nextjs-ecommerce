@@ -15,13 +15,33 @@ import ArrowPath from "@/assets/arrow.svg";
 
 import styles from "../login/Auth.module.scss";
 
+import { auth } from "@/firebase/firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 const ResetClient = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
+
   const resetPassword = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setIsLoading(false);
+        toast.success(
+          "비밀번호 업데이트 이메일을 전송했습니다. 이메일을 확인해주세요."
+        );
+        router.push("/login");
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        toast.error(error.message);
+      });
   };
 
   return (
