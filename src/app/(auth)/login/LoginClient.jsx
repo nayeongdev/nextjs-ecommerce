@@ -16,6 +16,8 @@ import ArrowPath from "@/assets/arrow.svg";
 
 import styles from "./Auth.module.scss";
 import { toast } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase/firebase";
 
 const LoginClient = () => {
   const [email, setEmail] = useState("");
@@ -31,8 +33,30 @@ const LoginClient = () => {
 
   const loginUser = (e) => {
     e.preventDefault();
-    toast.success("로그인 성공");
     setIsLoading(true);
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      setIsLoading(false);
+      toast.success("로그인 성공");
+      redirectUser();
+    })
+    .catch((error) => {
+      setIsLoading(false);
+
+      let errorMessage = "로그인 중 오류가 발생했습니다.";
+      
+      switch (error.code) {
+        case "auth/invalid-credential":
+          toast.error("이메일 또는 비밀번호가 올바르지 않습니다.");
+          errorMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
+          break;
+        default:
+          errorMessage = `${errorMessage} ${error.message}`;
+      }
+
+      toast.error(errorMessage);
+    });
   };
 
   const signInWithGoogle = () => {};
