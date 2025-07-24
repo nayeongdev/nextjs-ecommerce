@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./Header.module.scss";
 import Link from "next/link";
 import { signOut } from "firebase/auth";
@@ -9,31 +9,31 @@ import { useRouter, usePathname } from "next/navigation";
 import { toast } from "react-toastify";
 import { onAuthStateChanged } from "firebase/auth";
 import InnerHeader from "@/layouts/innerHeader/InnerHeader";
+import { useDispatch } from "react-redux";
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER } from "@/redux/slice/authSlice";
 
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
-
-  const [displayName, setDisplayName] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        if (user.displayName === null) {
-          // 구글 로그인시 displayName 없음
-          const u1 = user.email.split("@")[0];
-          const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
-          setDisplayName(uName);
-        } else {
-          setDisplayName(user.displayName);
-        }
-
         // 유저 정보 리덕스 스토어에 저장
+        dispatch(
+          SET_ACTIVE_USER({
+            email: user.email,
+            userName: user.displayName,
+            userId: user.uid,
+          })
+        );
       } else {
         // 유저 정보 리덕스 스토어에서 삭제
+        dispatch(REMOVE_ACTIVE_USER());
       }
     });
-  }, []);
+  }, [dispatch]);
 
   const logoutUser = () => {
     signOut(auth)
