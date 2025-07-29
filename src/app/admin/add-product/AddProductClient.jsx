@@ -6,6 +6,10 @@ import Loader from "@/components/Loader/Loader";
 import Heading from "@/components/Heading/Heading";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { db, storage } from "@/firebase/firebase";
+import { toast } from "react-toastify";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 const categories = [
   { id: 1, name: "Laptop" },
@@ -34,7 +38,7 @@ const initialState = {
 const AddProductClient = () => {
   const [product, setProduct] = useState({ ...initialState });
 
-  const [uploadProgress, setUploadProgress] = useState(1);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -44,11 +48,53 @@ const AddProductClient = () => {
   };
 
   const handleImageUpload = (e) => {
-    e.preventDefault();
+    const file = e.target.files[0];
+
+    const storageRef = ref(storage, `images/${Date.now()}${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setUploadProgress(progress);
+      },
+      (error) => {
+        toast.error(error.message);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+          setProduct({ ...product, imageUrl: downloadUrl });
+          toast.success("성공적으로 이미지를 업로드했습니다.");
+        });
+      }
+    );
   };
 
   const addProduct = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    try {
+        addDoc(collection(db, "products"), {
+            ...product,
+            price: Number(product.price),
+            createdAt: serverTimestamp(),
+        });
+
+        setProduct({ ...initialState });
+        setUploadProgress(0);
+        setIsLoading(false);
+
+        toast.success("상품을 저장했습니다.");
+        router.push("/admin/all-products");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
