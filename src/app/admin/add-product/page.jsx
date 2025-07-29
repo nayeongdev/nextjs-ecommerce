@@ -1,9 +1,8 @@
-import React from 'react'
+import AddProductClient from "./AddProductClient";
+import React from "react";
 
 const AddProduct = () => {
-  return (
-    <div>Add Product</div>
-  )
-}
+  return <AddProductClient />;
+};
 
-export default AddProduct 
+export default AddProduct;
