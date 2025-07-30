@@ -1,20 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useFetchCollection from "@/hooks/useFetchCollection";
+import { selectProducts, STORE_PRODUCTS } from "@/redux/slice/productSlice";
 import styles from "./Product.module.scss";
+import Loader from "../loader/Loader";
+import ProductFilter from "./ProductFilter/ProductFilter";
+import ProductList from "./ProductList/ProductList";
 
 const Product = () => {
-  // const { data, isLoading } = useFetchCollection("products")
+  const { data, isLoading } = useFetchCollection("products")
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(STORE_PRODUCTS({ products: data }));
+  }, [data, dispatch]);
+
+  const products = useSelector(selectProducts);
 
   return (
-    <>
-      {/* {isLoading && <div>Loading...</div>} */}
-      <section className={styles.product}>
-        <aside className={styles.filter}></aside>
-        <div className={styles.content}></div>
-      </section>
-    </>
+    <section className={styles.product}>
+      <aside className={styles.filter}>
+        {isLoading ? null : <ProductFilter />}
+      </aside>
+      <div className={styles.content}>
+        {isLoading ? <Loader basic /> : <ProductList />}
+      </div>
+    </section>
   );
 };
 
