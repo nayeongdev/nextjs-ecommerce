@@ -1,1 +1,69 @@
+.filter {
+  h4 {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 5px;
+  }
 
+  .category button {
+    display: block;
+    text-align: left;
+    width: 80%;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-bottom: 1px solid var(--dark-gray);
+  }
+
+  .brand {
+    select {
+      font-size: 1.25rem;
+      font-weight: 300;
+      padding: 5px;
+      width: 80%;
+      border: 1px solid var(--dark-gray);
+      border-radius: 3px;
+      outline: none;
+    }
+  }
+
+  .price {
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 80%;
+      accent-color: var(--color-primary);
+    }
+  }
+
+  .search {
+    margin-top: 1rem;
+    input {
+      font-size: 1.25rem;
+      width: 80%;
+      height: 2.5rem;
+      border: 1px solid var(--dark-gray);
+      border-radius: 3px;
+      padding: 0 0.5rem;
+    }
+  }
+}
+
+.active {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: var(--color-primary);
+  width: 2px;
+}
