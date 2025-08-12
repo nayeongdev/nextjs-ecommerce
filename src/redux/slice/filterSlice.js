@@ -33,7 +33,9 @@ const filterSlice = createSlice({
     FILTER_BY_PRICE: (state, action) => {
       const { products, price } = action.payload;
       let tempProducts = [];
-      tempProducts = products.filter((product) => product.price <= price);
+      tempProducts = products.filter(
+        (product) => Number(product.price) <= Number(price)
+      );
       state.filteredProducts = tempProducts;
     },
     FILTER_BY_SEARCH: (state, action) => {
@@ -55,6 +57,7 @@ const filterSlice = createSlice({
           (product) => product.category === category
         );
       }
+
       if (brand == "All") {
         tempProducts = tempProducts;
       } else {
@@ -62,10 +65,31 @@ const filterSlice = createSlice({
           (product) => product.brand === brand
         );
       }
+
       if (search !== "") {
         tempProducts = tempProducts.filter((product) =>
           product.name.toLowerCase().includes(search.toLowerCase())
         );
+      }
+      state.filteredProducts = tempProducts;
+    },
+    SORT_PRODUCTS: (state, action) => {
+      const { products, sort } = action.payload;
+      let tempProducts = [...products];
+
+      if (sort === "latest") {
+        // createdAt 기준으로 최신순 정렬 (ISO 문자열)
+        tempProducts = tempProducts.sort((a, b) => {
+          const dateA = new Date(a.createdAt || 0);
+          const dateB = new Date(b.createdAt || 0);
+          return dateB - dateA;
+        });
+      }
+      if (sort === "lowest-price") {
+        tempProducts = tempProducts.sort((a, b) => a.price - b.price);
+      }
+      if (sort === "highest-price") {
+        tempProducts = tempProducts.sort((a, b) => b.price - a.price);
       }
       state.filteredProducts = tempProducts;
     },
@@ -78,6 +102,7 @@ export const {
   FILTER_BY_PRICE,
   FILTER_BY_SEARCH,
   FILTER_BY,
+  SORT_PRODUCTS,
 } = filterSlice.actions;
 
 export const selectFilteredProducts = (state) => state.filter.filteredProducts;
