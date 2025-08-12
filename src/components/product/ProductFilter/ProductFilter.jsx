@@ -13,10 +13,11 @@ import priceFormat from "@/utils/priceFormat";
 import Button from "@/components/button/Button";
 
 const ProductFilter = () => {
-  const [category, setCategory] = useState("");
-  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("All");
+  const [brand, setBrand] = useState("All");
   const [price, setPrice] = useState(10000);
   const [search, setSearch] = useState("");
+
   const products = useSelector(selectProducts);
   const maxPrice = useSelector(selectMaxPrice);
   const minPrice = useSelector(selectMinPrice);
@@ -26,6 +27,7 @@ const ProductFilter = () => {
     "All",
     ...new Set(products.map((product) => product.category)),
   ];
+
   const filterCategories = (cat) => {
     setCategory(cat);
     dispatch(FILTER_BY_CATEGORY({ products, category: cat }));
