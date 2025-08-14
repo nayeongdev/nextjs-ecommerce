@@ -5,10 +5,20 @@ import styles from "./ProductItem.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import priceFormat from "@/utils/priceFormat";
-import { Rating } from 'react-simple-star-rating'
-import rocketBage from '@/assets/badge-rocket.svg'
+import { Rating } from "react-simple-star-rating";
+import rocketBage from "@/assets/badge-rocket.svg";
+import useFetchDocuments from "@/hooks/useFetchDocuments";
 
 const ProductItem = ({ id, name, imageUrl, price }) => {
+  // const { documents } = useFetchDocuments('reviews', ['productId', '==', id]);
+
+  // let productRating = 0;
+
+  // documents.map((review) => {
+  //   productRating += review.rate;
+  // });
+
+  // const rating = productRating / documents.length;
 
   const shortenText = (text, maxLength = 10) => {
     if (text.length <= maxLength) return text;
@@ -28,11 +38,13 @@ const ProductItem = ({ id, name, imageUrl, price }) => {
           <p>{shortenText(name)}</p>
           <em>
             <strong style={{ color: "#cb1400" }}>{priceFormat(price)}</strong>원{" "}
-            <Image src={rocketBage} alt='로켓배송'></Image>
+            <Image src={rocketBage} alt="로켓배송"></Image>
           </em>
           <div className={styles.rating}>
             <Rating readonly initialValue={4} size={16} />
-            <span className={styles.ratingCount}>({3})</span>
+            <span className={styles.ratingCount}>({10})</span>
+            {/* <Rating readonly initialValue={Number.isNaN(rating) ? 0 : rating} size={16} />
+            <span className={styles.ratingCount}>({documents.length})</span> */}
           </div>
         </div>
       </div>
