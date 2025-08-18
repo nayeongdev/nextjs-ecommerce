@@ -1,10 +1,8 @@
-import React from 'react'
+import React from "react";
+import ProductDetailsClient from "./ProductDetailsClient";
 
-const ProductDetail = ({ params }) => {
-  const { id } = params;
-  return (
-    <div>Product Detail {id}</div>
-  )
-}
+const ProductDetail = () => {
+  return <ProductDetailsClient />;
+};
 
-export default ProductDetail 
+export default ProductDetail;
