@@ -11,11 +11,16 @@ import { useState } from "react";
 import Button from "@/components/button/Button";
 import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
+import useFetchDocuments from "@/hooks/useFetchDocuments";
+import ProductReviewItem from "@/components/product/productReviewItem/ProductReviewItem";
 
 const ProductDetailsClient = () => {
   const { id } = useParams();
 
   const { document: product } = useFetchDocument("products", id);
+
+  const { documents: reviews } = useFetchDocuments("reviews", [ "productId", "==", id ]);
+  console.log(reviews);
 
   const [count, setCount] = useState(1);
 
@@ -116,6 +121,16 @@ const ProductDetailsClient = () => {
           </div>
         </>
       )}
+      <div className={styles.card}>
+        <h3>상품평 ({reviews.length})</h3>
+        <div>
+          {reviews.length === 0 ? (
+            <p className={styles.noReviewText}>해당 상품에 대한 상품평이 아직 없습니다.</p>
+          ) : (
+            reviews.map((review) => <ProductReviewItem key={review.id} review={review} />)
+          )}
+        </div>
+      </div>
     </section>
   );
 };
