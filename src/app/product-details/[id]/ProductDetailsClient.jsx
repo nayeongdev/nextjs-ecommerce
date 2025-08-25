@@ -13,19 +13,22 @@ import Image from "next/image";
 import { Rating } from "react-simple-star-rating";
 import useFetchDocuments from "@/hooks/useFetchDocuments";
 import ProductReviewItem from "@/components/product/productReviewItem/ProductReviewItem";
+import { ADD_TO_CART, CALCULATE_TOTAL_QUANTITY } from "@/redux/slice/cartSlice";
+import { useDispatch } from "react-redux";
 
 const ProductDetailsClient = () => {
   const { id } = useParams();
 
   const { document: product } = useFetchDocument("products", id);
-
+  
   const { documents: reviews } = useFetchDocuments("reviews", [ "productId", "==", id ]);
-  console.log(reviews);
-
+  
+  const dispatch = useDispatch();
   const [count, setCount] = useState(1);
 
   const addToCart = () => {
-    console.log("장바구니 담기");
+    dispatch(ADD_TO_CART({...product, quantity: count}));
+    dispatch(CALCULATE_TOTAL_QUANTITY());
   };
 
   const today = new Date();
