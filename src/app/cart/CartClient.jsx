@@ -89,7 +89,7 @@ function CartClient() {
             </thead>
             <tbody>
               {cartItems.map((item, index) => {
-                const { id, name, price, imageURL, cartQuantity } = item;
+                const { id, name, price, imageUrl, cartQuantity } = item;
                 return (
                   <tr key={id}>
                     <td>{index + 1}</td>
@@ -98,7 +98,7 @@ function CartClient() {
                         <b>{name}</b>
                       </p>
                       <Image
-                        src={imageURL}
+                        src={imageUrl}
                         alt={name}
                         width={100}
                         height={100}
