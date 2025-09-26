@@ -199,7 +199,7 @@ src/
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@reduxjs/toolkit": "^2.8.2", 
-    "@tosspayments/payment-sdk": "^1.9.1",
+    "@tosspayments/tosspayments-sdk": "^2.4.0",
     "classnames": "^2.5.1",
     "firebase": "^11.10.0",
     "next": "15.3.4",
@@ -227,3 +227,14 @@ src/
 - **실시간 알림** - 토스트 및 팝업 알림
 - **반응형 디자인** - 모든 디바이스 지원
 - **슬라이더 캐러셀** - 자동/수동 전환, 무한 루프
+
+
+## 참고 레퍼런스
+토스페이먼츠 결제
+- [SDK - 결제창](https://docs.tosspayments.com/sdk/v2/js#%EA%B2%B0%EC%A0%9C%EC%B0%BD)
+- [카드/간편결제 통합결제창 연동하기](https://docs.tosspayments.com/guides/v2/payment-window/integration)
+- [Promise 실전에서 사용해보기](https://docs.tosspayments.com/blog/using-promises)
+- [에러 코드 - 결제창](https://docs.tosspayments.com/sdk/v2/error-codes#결제창-에러)
+- [API 테스트 - 결제 승인](https://docs.tosspayments.com/reference/test/v1/payments/confirm/POST)
+- [Ref1. GitHub](https://github.com/nenidan/toss-payments-front/blob/main/src/components/Charge.js)
+- [Ref2. GitHub](https://github.com/tosspayments/tosspayments-sample/blob/main/express-react/src/pages/payment/PaymentCheckout.jsx)
