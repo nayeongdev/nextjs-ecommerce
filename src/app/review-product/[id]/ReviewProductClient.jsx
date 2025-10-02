@@ -5,7 +5,7 @@ import styles from "./ReviewProduct.module.scss";
 import { useRouter, useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectUserId, selectUserName } from "@/redux/slice/authSlice";
-import { addDoc, Timestamp } from "firebase/firestore";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "@/components/loader/Loader";
 import Button from "@/components/button/Button";
@@ -13,10 +13,11 @@ import { Rating } from "react-simple-star-rating";
 import useFetchDocument from "@/hooks/useFetchDocument";
 import Heading from "@/components/heading/Heading";
 import Image from "next/image";
+import { db } from "@/firebase/firebase";
 
 const ReviewProductClient = () => {
   const [rate, setRate] = useState(0);
-  const [comment, setComment] = useState("");
+  const [review, setReview] = useState("");
 
   const router = useRouter();
 
@@ -24,10 +25,7 @@ const ReviewProductClient = () => {
   const userId = useSelector(selectUserId);
   const userName = useSelector(selectUserName);
 
-  const { document: product } = useFetchDocument(
-    "products",
-    id ? id.toString() : ""
-  );
+  const { document: product } = useFetchDocument("products", id);
   // console.log("product:", product, "id:", id);
 
   const handleSubmit = (e) => {
@@ -51,7 +49,7 @@ const ReviewProductClient = () => {
 
       router.push(`/product-details/${id}`);
     } catch (error) {
-      toast.error("리뷰 작성에 실패했습니다. ", error.message);
+      toast.error(error.message);
     }
   };
 
@@ -83,8 +81,8 @@ const ReviewProductClient = () => {
           <Rating initialValue={rate} onClick={(rate) => setRate(rate)} />
           <label>상품평</label>
           <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
             required
             cols={30}
             rows={10}
