@@ -1,10 +1,8 @@
-import React from 'react'
+import React from "react";
+import ReviewProductClient from "./ReviewProductClient";
 
-const ReviewProductDetail = ({ params }) => {
-  const { id } = params;
-  return (
-    <div>Review Product {id}</div>
-  )
-}
+const ReviewProductDetail = () => {
+  return <ReviewProductClient />;
+};
 
-export default ReviewProductDetail 
+export default ReviewProductDetail;

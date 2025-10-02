@@ -16,7 +16,7 @@ const OrderDetailsClient = () => {
   const { document: order } = useFetchDocument("orders", id);
 
   const router = useRouter();
-  const handleClick = () => {
+  const handleClick = (id) => {
     router.push(`/review-product/${id}`);
   };
 
@@ -53,6 +53,7 @@ const OrderDetailsClient = () => {
             <tbody>
               {order.cartItems.map((item, index) => {
                 const { id, name, price, cartQuantity, imageUrl } = item;
+                console.log(id);
 
                 return (
                   <tr key={id}>
@@ -69,7 +70,9 @@ const OrderDetailsClient = () => {
                     <td>{cartQuantity}개</td>
                     <td>{priceFormat(price * cartQuantity)}원</td>
                     <td className={styles.icons}>
-                      <Button onClick={() => handleClick}>상품 리뷰하기</Button>
+                      <Button onClick={() => handleClick(id)}>
+                        상품 리뷰하기
+                      </Button>
                     </td>
                   </tr>
                 );
